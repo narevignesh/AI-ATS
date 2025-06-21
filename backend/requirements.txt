@@ -1,0 +1,16 @@
+Flask
+Flask-JWT-Extended
+Flask-Mail
+Flask-CORS
+Flask-PyMongo
+python-decouple
+PyMuPDF
+docx2txt
+scikit-learn
+sentence-transformers
+pymongo
+dnspython
+requests
+itsdangerous
+werkzeug
+google-generativeai
