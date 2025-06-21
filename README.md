@@ -551,10 +551,6 @@ export VITE_APP_ENV=production
 - Write meaningful commit messages
 - Add documentation for new features
 
-## 📄 License
-
-MIT License - See LICENSE file for details
-
 ## 🙏 Acknowledgments
 
 - **shadcn/ui** for beautiful UI components
@@ -568,7 +564,7 @@ MIT License - See LICENSE file for details
 
 For support, questions, or contributions:
 - **Email:** vigneshnaidu022@gmail.com
-- **GitHub:** [Repository Issues](https://github.com/your-repo/issues)
+- **GitHub:** [Repository Issues](https://github.com/narevignesh/AI-ATS)
 
 ---
 
