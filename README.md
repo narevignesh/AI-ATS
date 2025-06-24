@@ -379,87 +379,7 @@ npm install react@18.3.1 react-dom@18.3.1 vite@5.4.1
 }
 ```
 
-## 🚀 Deployment
 
-### Backend Deployment
-```bash
-# Production environment variables
-SECRET_KEY=your-production-secret-key
-JWT_SECRET_KEY=your-production-jwt-secret
-MONGO_URI=mongodb://your-production-mongo-uri
-CORS_ORIGINS=https://yourdomain.com
-
-# Using Gunicorn
-pip install gunicorn
-gunicorn -w 4 -b 0.0.0.0:5000 run:app
-```
-
-### Frontend Deployment
-```bash
-# Build for production
-npm run build
-
-# Serve with nginx or similar
-# Copy dist/ contents to web server
-```
-
-### Docker Deployment
-```dockerfile
-# Backend Dockerfile
-FROM python:3.9-slim
-WORKDIR /app
-COPY requirements.txt .
-RUN pip install -r requirements.txt
-COPY . .
-EXPOSE 5000
-CMD ["python", "run.py"]
-
-# Frontend Dockerfile
-FROM node:18-alpine
-WORKDIR /app
-COPY package*.json ./
-RUN npm install
-COPY . .
-RUN npm run build
-EXPOSE 8080
-CMD ["npm", "run", "preview"]
-```
-
-## 🧪 Testing
-
-### Backend Testing
-```bash
-# API testing with curl
-curl -X POST http://localhost:5000/api/signup/ \
-  -H "Content-Type: application/json" \
-  -d '{"name":"Test User","email":"test@example.com","password":"password123"}'
-
-# Unit testing
-python -m pytest tests/
-```
-
-### Frontend Testing
-```bash
-# Component testing
-npm test
-
-# E2E testing
-npm run test:e2e
-```
-
-## 📈 Performance Optimization
-
-### Backend Optimization
-- **Database indexing** for faster queries
-- **Caching** for frequently accessed data
-- **Async processing** for heavy operations
-- **Connection pooling** for database
-
-### Frontend Optimization
-- **Code splitting** with React Router
-- **Lazy loading** for components
-- **Bundle optimization** with Vite
-- **Image optimization** and compression
 
 ## 🔧 Configuration
 
@@ -557,10 +477,6 @@ export VITE_APP_ENV=production
 - Write meaningful commit messages
 - Add documentation for new features
 
-## 📄 License
-
-MIT License - See LICENSE file for details
-
 ## 🙏 Acknowledgments
 
 - **shadcn/ui** for beautiful UI components
@@ -574,7 +490,7 @@ MIT License - See LICENSE file for details
 
 For support, questions, or contributions:
 - **Email:** vigneshnaidu022@gmail.com
-- **GitHub:** [Repository Issues](https://github.com/your-repo/issues)
+- **GitHub:** [Repository Issues](https://github.com/narevignesh/AI-ATS)
 
 ---
 
