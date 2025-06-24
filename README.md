@@ -1,5 +1,11 @@
 # AI-ATS Resume System - Full Stack Application
 
+## 📺 Demo Video
+
+[Demo Video.mp4](Demo%20Video.mp4)
+
+*Click the link above to download and watch the project walkthrough video. If viewing on GitHub, download and play locally.*
+
 ## 🚀 Overview
 A comprehensive, full-stack AI-powered resume analysis and improvement system that helps job seekers optimize their resumes for Applicant Tracking Systems (ATS). The application provides real-time ATS scoring, AI-powered suggestions, and comprehensive user management with secure authentication.
 

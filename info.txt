@@ -1,0 +1,354 @@
+AI-ATS Project: Tools & File Usage Documentation
+================================================
+
+Project Structure Overview
+-------------------------
+- backend/: Python Flask backend for API, authentication, resume parsing, ATS scoring, suggestions, and admin features.
+- frontend/: React (Vite) frontend for user interface, resume upload, scoring, suggestions, and admin dashboard.
+
+
+Backend Tools & Libraries
+------------------------
+**Flask**: Web framework for building REST APIs.
+**Flask-JWT-Extended**: JWT authentication for secure API endpoints.
+**Flask-Mail**: Sending emails (OTP, notifications).
+**Flask-CORS**: Cross-Origin Resource Sharing for frontend-backend communication.
+**Flask-PyMongo**: MongoDB integration for data storage.
+**python-decouple**: Environment variable management.
+**PyMuPDF (fitz)**: PDF parsing for resume extraction.
+**docx2txt**: DOCX parsing for resume extraction.
+**scikit-learn**: Machine learning utilities (if used in suggestions/ATS).
+**sentence-transformers**: Embedding and semantic similarity for suggestions/ATS.
+**pymongo**: MongoDB driver.
+**dnspython**: DNS support for MongoDB Atlas.
+**requests**: HTTP requests (if used).
+**itsdangerous**: Secure token generation (password reset).
+**werkzeug**: Password hashing and security utilities.
+**google-generativeai**: (Optional) Gemini API integration for advanced AI features.
+
+
+Frontend Tools & Libraries
+-------------------------
+**React**: UI library for building components.
+**Vite**: Fast frontend build tool.
+**TypeScript**: Type safety for React components.
+**react-router-dom**: Routing and navigation.
+**TailwindCSS**: Utility-first CSS framework for styling.
+**Radix UI**: Accessible UI primitives (accordion, dialog, etc.).
+**axios**: HTTP client for API requests.
+**react-hook-form**: Form state management.
+**zod**: Schema validation.
+**@tanstack/react-query**: Data fetching and caching.
+**chart.js, react-chartjs-2, recharts**: Data visualization.
+**react-toastify, sonner**: Toast notifications.
+**date-fns, react-day-picker**: Date utilities.
+**input-otp**: OTP input UI.
+**embla-carousel-react**: Carousel UI.
+**cmdk**: Command palette UI.
+**react-resizable-panels**: Resizable UI panels.
+**vaul**: Drawer component.
+**next-themes**: Theme management.
+**eslint, typescript-eslint**: Linting and code quality.
+
+
+File-by-File Tool Usage
+-----------------------
+
+### backend/app/__init__.py
+- Flask: App creation, blueprint registration.
+- Flask-CORS: CORS setup.
+- Custom: Imports blueprints from routes.
+- Purpose: Initializes the Flask app, configures extensions, and registers API routes.
+
+### backend/app/config.py
+- python-decouple: Loads environment variables.
+- Purpose: Central configuration for Flask, MongoDB, JWT, Mail, and CORS.
+
+### backend/app/extensions.py
+- Flask-PyMongo, Flask-JWT-Extended, Flask-Mail, Flask-CORS: Extension instances.
+- Purpose: Initializes and exposes Flask extensions for use across the app.
+
+### backend/app/models/user_model.py
+- werkzeug.security: Password hashing.
+- bson.ObjectId: MongoDB object IDs.
+- Purpose: User model utilities for user creation, password verification, and user serialization.
+
+### backend/app/routes/auth_routes.py
+- Flask: Routing, request/response handling.
+- Flask-JWT-Extended: JWT authentication.
+- werkzeug.security: Password hashing.
+- Custom: Email and token utilities, user model.
+- Purpose: Handles signup, login, OTP, password reset, and authentication logic.
+
+### backend/app/routes/resume_routes.py
+- Flask: Routing, request/response handling.
+- Flask-JWT-Extended: JWT authentication.
+- PyMuPDF, docx2txt: Resume parsing.
+- werkzeug.utils: Secure file handling.
+- Purpose: Handles resume upload, parsing, and storage.
+
+### backend/app/routes/ats_routes.py
+- sentence-transformers: Embedding for ATS scoring.
+- numpy: Vector math for similarity.
+- Flask: Routing, request/response handling.
+- Flask-JWT-Extended: JWT authentication.
+- Purpose: Computes ATS score by comparing resume and job description embeddings.
+
+### backend/app/routes/suggest_routes.py
+- sentence-transformers: Embedding for suggestions.
+- numpy: Vector math.
+- Flask: Routing, request/response handling.
+- Flask-JWT-Extended: JWT authentication.
+- Purpose: Suggests resume improvements using semantic similarity.
+
+### backend/app/routes/admin_routes.py
+- Flask: Routing, request/response handling.
+- Flask-JWT-Extended: JWT authentication.
+- Custom: role_required decorator.
+- bson: MongoDB object IDs.
+- csv, io: CSV export.
+- Purpose: Admin endpoints for user management, log export, and analytics.
+
+### backend/app/routes/activity_routes.py
+- Flask: Routing, request/response handling.
+- Flask-JWT-Extended: JWT authentication.
+- Purpose: User activity tracking endpoints.
+
+### backend/app/utils/email_utils.py
+- Flask-Mail: Email sending.
+- Flask: App context.
+- random, os: OTP generation and file handling.
+- Purpose: OTP generation, email sending, and .env file creation utility.
+
+### backend/app/utils/role_required.py
+- functools: Decorator utilities.
+- Flask-JWT-Extended: JWT verification.
+- Flask: Response utilities.
+- Purpose: Decorator to restrict endpoints to specific user roles (e.g., admin).
+
+### backend/app/utils/token_utils.py
+- itsdangerous: Token serialization.
+- Flask: App context.
+- Purpose: Password reset token generation and verification.
+
+### backend/run.py
+- Custom: App creation, user model.
+- Purpose: Runs the Flask app and ensures a default admin user exists.
+
+
+Frontend File Usage (Key Examples)
+----------------------------------
+
+### frontend/app/src/App.jsx
+- React: Component structure.
+- react-router-dom: Routing.
+- react-toastify: Toast notifications.
+- Purpose: Main app component, route definitions, and notification setup.
+
+### frontend/app/src/services/api.js
+- axios: HTTP client for API requests.
+- Purpose: Centralized API instance with JWT token handling.
+
+### frontend/app/src/pages/Dashboard.jsx
+- React: State and effect hooks.
+- react-router-dom: Navigation.
+- react-toastify: Notifications.
+- Custom: API service for user activity.
+- Purpose: User dashboard, activity display, and navigation.
+
+### frontend/app/src/components/ui/*
+- Radix UI, utility libraries (clsx, class-variance-authority, etc.): UI primitives and helpers.
+- Purpose: Reusable, accessible UI components (buttons, dialogs, forms, etc.).
+
+### frontend/app/src/hooks/use-toast.ts
+- React: Custom hook.
+- Custom: Toast UI integration.
+- Purpose: Custom hook for toast notification logic.
+
+### frontend/app/vite.config.ts
+- vite, @vitejs/plugin-react-swc: Build configuration.
+- path: Path resolution.
+- lovable-tagger: Component tagging for development.
+- Purpose: Vite build and plugin setup.
+
+
+How to Extend or Maintain
+------------------------
+- Add new backend features by creating new routes in backend/app/routes/ and registering them in __init__.py.
+- Add new frontend pages/components in frontend/app/src/pages/ or frontend/app/src/components/.
+- Use the centralized API service for all HTTP requests.
+- Use Radix UI and TailwindCSS for consistent, accessible UI.
+
+
+This documentation provides a high-level and file-level overview of all tools, libraries, and their purposes in the AI-ATS project. For more details, refer to the README files and inline code comments.
+
+Blueprint Details
+----------------
+The Flask application uses blueprints to organize routes into logical modules:
+
+1. **auth_bp** (/api)
+   - Handles user authentication
+   - Routes: /signup/, /login/, /verify-otp/, /resend-otp/, /forgot-password/, /reset-password/
+   - Protected by JWT for relevant endpoints
+
+2. **resume_bp** (/api)
+   - Manages resume operations
+   - Routes: /upload/, /parse/, /get-resumes/
+   - Protected by JWT
+   - Handles file uploads and parsing
+
+3. **ats_bp** (/api)
+   - ATS scoring functionality
+   - Routes: /score/, /history/
+   - Uses ML models for scoring
+   - Protected by JWT
+
+4. **suggest_bp** (/api)
+   - Resume improvement suggestions
+   - Routes: /improve/, /keywords/
+   - Uses NLP for suggestions
+   - Protected by JWT
+
+5. **admin_bp** (/api/admin)
+   - Administrative functions
+   - Routes: /users/, /export-logs/, /analytics/
+   - Protected by JWT and role_required decorator
+   - Admin-only access
+
+6. **activity_bp** (/api)
+   - User activity tracking
+   - Routes: /user-activity/
+   - Protected by JWT
+   - Tracks usage metrics
+
+Additional Libraries & Tools
+--------------------------
+
+Backend Additional Libraries:
+1. **numpy**: Mathematical operations for ML/NLP
+   - Vector operations
+   - Similarity calculations
+   - Array manipulations
+
+2. **bson**: MongoDB data types
+   - ObjectId handling
+   - BSON serialization
+   - MongoDB compatibility
+
+3. **datetime**: Time operations
+   - Timestamp generation
+   - Token expiration
+   - Activity logging
+
+4. **os**: File system operations
+   - Upload directory management
+   - Environment setup
+   - Path handling
+
+Frontend Additional Libraries:
+1. **class-variance-authority**:
+   - Dynamic class generation
+   - Component variants
+   - Style management
+
+2. **clsx**:
+   - Conditional class names
+   - Class merging
+   - Dynamic styling
+
+3. **tailwind-merge**:
+   - Tailwind class deduplication
+   - Style conflict resolution
+   - Efficient class management
+
+4. **lucide-react**:
+   - Icon components
+   - SVG optimization
+   - Consistent styling
+
+Interview Questions & Answers
+---------------------------
+
+### Backend Framework & Architecture
+
+Q1: Explain the Flask blueprint structure in this project?
+A1: The project uses 6 main blueprints (auth_bp, resume_bp, ats_bp, suggest_bp, admin_bp, activity_bp) to modularize functionality. Each blueprint handles specific features like authentication, resume processing, or admin tasks. They're registered in __init__.py with specific URL prefixes.
+
+Q2: How is authentication implemented?
+A2: Authentication uses Flask-JWT-Extended for JWT tokens. Users receive a token on login, which is verified using @jwt_required() decorator. Role-based access is implemented using a custom @role_required decorator.
+
+Q3: How does the resume parsing system work?
+A3: The system uses PyMuPDF for PDF files and docx2txt for DOCX files. Files are securely saved using werkzeug.utils.secure_filename(), then parsed to extract text and structure. The parsed content is stored in MongoDB.
+
+### Database & Data Models
+
+Q4: Explain the MongoDB integration?
+A4: Flask-PyMongo connects to MongoDB. The database stores users, resumes, ATS scores, and activity logs. Models are defined in the models/ directory, with user_model.py handling user operations.
+
+Q5: How is user data secured?
+A5: Passwords are hashed using werkzeug.security. Environment variables are managed with python-decouple. Sensitive data is never exposed in responses.
+
+### Machine Learning & NLP
+
+Q6: How does the ATS scoring system work?
+A6: It uses sentence-transformers to generate embeddings for both resume and job description. Cosine similarity between these embeddings determines the match score. Additional factors like keyword presence are considered.
+
+Q7: Explain the suggestion system's architecture?
+A7: The system uses sentence-transformers and numpy for semantic analysis. It compares resume sections with ideal templates, identifies gaps, and generates improvement suggestions.
+
+### Frontend Architecture
+
+Q8: How is the frontend state managed?
+A8: React hooks manage local state, while @tanstack/react-query handles server state. Context is used for global states like authentication and themes.
+
+Q9: Explain the UI component architecture?
+A9: The UI uses Radix UI primitives enhanced with TailwindCSS. Components are organized by feature (Auth/, Resume/, etc.) with shared UI components in ui/.
+
+### Security & Performance
+
+Q10: How is CORS handled?
+A10: Flask-CORS manages CORS with configured origins. The frontend uses axios interceptors to include JWT tokens in requests.
+
+Q11: What performance optimizations are implemented?
+A11: Vite for fast builds, React.lazy for code splitting, MongoDB indexing for queries, and caching with react-query.
+
+### Tool-Specific Questions
+
+Q12: Why use sentence-transformers over other NLP tools?
+A12: sentence-transformers provides pre-trained models optimized for semantic similarity, crucial for ATS scoring and suggestions. It's efficient and accurate for text comparison tasks.
+
+Q13: Explain the role of react-hook-form?
+A13: react-hook-form manages form state, validation, and submission with minimal re-renders. It integrates with zod for schema validation and provides a better UX with less code.
+
+### Deployment & Maintenance
+
+Q14: How is the environment configuration managed?
+A14: Backend uses python-decouple with .env files. Frontend uses Vite's environment variables. Templates (env_template.txt) guide setup.
+
+Q15: What's the deployment strategy?
+A15: Backend can be deployed to any Python-supporting platform. Frontend is built with Vite for production. MongoDB can be local or Atlas-hosted.
+
+### Testing & Quality Assurance
+
+Q16: How is code quality maintained?
+A16: ESLint and TypeScript for frontend. Python type hints and docstrings for backend. Consistent code style with formatters.
+
+Q17: What testing strategies are used?
+A17: Unit tests for utilities, integration tests for API endpoints, and UI testing for components. Jest for frontend, pytest for backend.
+
+### Practical Implementation
+
+Q18: How would you add a new feature?
+A18: 1. Add backend route in appropriate blueprint
+    2. Create frontend component
+    3. Add API service method
+    4. Update types and documentation
+    5. Test and validate
+
+Q19: How do you handle file uploads?
+A19: Frontend uses FormData with axios. Backend validates file types, sanitizes names, processes content, and stores metadata in MongoDB with files in filesystem.
+
+Q20: Explain the OTP system implementation?
+A20: Uses Flask-Mail for delivery, generates 6-digit codes stored in MongoDB with expiration. Frontend has dedicated OTP input component with validation.
+
+This Q&A section covers key aspects developers should understand about the project's architecture, tools, and implementation details. For specific implementation details, refer to the codebase and comments.
